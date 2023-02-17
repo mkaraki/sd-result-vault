@@ -30,6 +30,18 @@ if (isset($info['generation'])) {
     $info = array_merge($info, $generation_info);
 }
 
+$uhost = 'http' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 's' : '') . '://' .
+    $_SERVER['HTTP_HOST'];
+$rurl = $uhost . $_SERVER['REQUEST_URI'];
+$url = parse_url($rurl);
+$paths = explode('/', $url['path']);
+$paths = array_slice($paths, 1, -1);
+$path = implode('/', $paths);
+if (!str_ends_with($path, '/') && strlen($path) > 1)
+    $path .= '/';
+$imgurl = $uhost . '/' . $path . 'img/' . $_GET['img'];
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,6 +51,14 @@ if (isset($info['generation'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image info</title>
+    <meta property="og:url" content="<?= htmlentities($rurl) ?>">
+    <meta property="twitter:url" content="<?= htmlentities($rurl) ?>">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Image info">
+    <meta name="twitter:title" content="Image info">
+    <meta property="og:image" content="<?= htmlentities($imgurl) ?>">
+    <meta name="twitter:image" content="<?= htmlentities($imgurl) ?>">
+    <meta name="twitter:card" content="summary_large_image">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 
@@ -46,7 +66,7 @@ if (isset($info['generation'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <img src="img/<?= htmlentities($_GET['img']) ?>" alt="Image" class="img-fluid">
+                <img src="<?= htmlentities($imgurl) ?>" alt="Image" class="img-fluid">
             </div>
         </div>
         <div class="row">
