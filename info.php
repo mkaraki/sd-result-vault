@@ -10,6 +10,7 @@ if (!isset($_GET['img'])) {
     die('No image');
 }
 
+$gi = $_GET['img'];
 if (DIRECTORY_SEPARATOR !== '/')
     $gi = str_replace('/', DIRECTORY_SEPARATOR, $_GET['img']);
 
