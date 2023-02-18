@@ -8,9 +8,12 @@ define(
 if (!isset($_GET['img']))
     $_GET['img'] = '';
 
+
 $ig = $_GET['img'];
 if (!str_ends_with($ig, '/') && strlen($ig) > 2)
     $ig .= '/';
+
+$separated_dir = explode('/', $ig);
 
 $gi = $_GET['img'];
 if (DIRECTORY_SEPARATOR !== '/')
@@ -58,6 +61,17 @@ $dirEntries = scandir($p);
 
 <body style="padding: 5px;">
     <div class="container">
+        <div class="row">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="?">root</a></li>
+                    <?php foreach ($separated_dir as $i => $d) : ?>
+                        <?php if (empty($d)) continue; ?>
+                        <li class="breadcrumb-item"><a href="?img=<?= urlencode(implode('/', array_slice($separated_dir, 0, $i + 1))) ?>"><?= htmlentities($d) ?></a></li>
+                    <?php endforeach; ?>
+                </ol>
+            </nav>
+        </div>
         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-6 g-4">
             <?php foreach ($dirEntries as $content) : ?>
                 <?php if (str_starts_with($content, '.')) continue; ?>
