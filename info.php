@@ -41,6 +41,10 @@ if (!str_ends_with($path, '/') && strlen($path) > 1)
     $path .= '/';
 $imgurl = $uhost . '/' . $path . 'img/' . $_GET['img'];
 
+$prompt = $info['prompt'] ?? 'Unknown';
+if (isset($info['Seed']))
+    $prompt = $info['Seed'] . ' - ' . $prompt;
+$geninfo = $info['generation_str'] ?? 'Unknown';
 
 ?>
 <!DOCTYPE html>
@@ -50,12 +54,14 @@ $imgurl = $uhost . '/' . $path . 'img/' . $_GET['img'];
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image info</title>
+    <title><?= htmlentities($prompt) ?> - Image info</title>
     <meta property="og:url" content="<?= htmlentities($rurl) ?>">
     <meta property="twitter:url" content="<?= htmlentities($rurl) ?>">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Image info">
-    <meta name="twitter:title" content="Image info">
+    <meta property="og:description" content="<?= htmlentities($geninfo) ?>">
+    <meta name="twitter:description" content="<?= htmlentities($geninfo) ?>">
+    <meta property="og:title" content="<?= htmlentities($prompt) ?> - Image info">
+    <meta name="twitter:title" content="<?= htmlentities($prompt) ?> - Image info">
     <meta property="og:image" content="<?= htmlentities($imgurl) ?>">
     <meta name="twitter:image" content="<?= htmlentities($imgurl) ?>">
     <meta name="twitter:card" content="summary_large_image">

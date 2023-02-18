@@ -26,6 +26,7 @@ function parseDiffusionParameters(string $path)
             $last_obj = 'negative';
         } elseif (str_starts_with($prm, 'Steps: ')) {
             $ccut = explode(',', $prm);
+            $res['generation_str'] = $prm;
             $res['generation'] = [];
             $last_sn = '';
             for ($j = 0; $j < count($ccut); $j++) {
